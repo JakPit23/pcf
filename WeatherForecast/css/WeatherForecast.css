@@ -1,5 +1,24 @@
-.weather-forecast-list {
+.weather-list {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center ;
+}
+
+.weather-box {
+    width: 20%
+}
+
+.icon { 
+    margin: 0 auto;
+}
+
+.control-container {
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 1rem;
 }

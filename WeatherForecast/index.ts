@@ -1,8 +1,7 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { WeatherForecastList, IWeatherForecastListProps } from "./WeatherForecastList";
+import { WeatherList, IWeatherListProps } from "./WeatherList";
 import * as React from "react";
-
-import { DataGenerator } from "./lib/DataGenerator";
+import * as ReactDOM from "react-dom";
 
 export class WeatherForecast implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
@@ -28,19 +27,14 @@ export class WeatherForecast implements ComponentFramework.ReactControl<IInputs,
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
     }
-
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      * @returns ReactElement root react element for the control
      */
-    public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        const weatherData = new DataGenerator().getWeatherData();
-        console.log(weatherData);
-        const props: IWeatherForecastListProps = { weatherData: weatherData };
-        return React.createElement(
-            WeatherForecastList, props
-        );
+    public updateView(context: ComponentFramework.Context<IInputs>):React.ReactElement {
+
+        return React.createElement(WeatherList);
     }
 
     /**
@@ -48,7 +42,7 @@ export class WeatherForecast implements ComponentFramework.ReactControl<IInputs,
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return { };
+        return {};
     }
 
     /**

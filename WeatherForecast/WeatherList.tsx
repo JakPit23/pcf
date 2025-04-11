@@ -1,12 +1,32 @@
 import * as React from 'react';
-import { Label } from '@fluentui/react-components'; // Ensure Label is used in the render method
+import { FluentProvider, Title3, webLightTheme } from '@fluentui/react-components'; 
 import { WeatherType, IWeatherData } from './types/WeatherData';
 import { WeatherBox } from './WeatherBox';
 
+export interface IWeatherListProps {
+  title: string;
+}
 
-export interface IWeatherListProps {}
+export interface APIResponse {
+  latitude: number;
+  longitude: number;
+  generation_ms: number;
+  utc_offset_seconds: number;
+  timezone: string;
+  timezone_abbreviation: string;
+  elevation: number;
+  daily_units: {
+    time: string,
+    temperature_2m_mean: string,
+  },
+  daily: {
+    time: string[],
+    temperature_2m_mean: number[],
+  }
+}
 
 export class WeatherList extends React.Component<IWeatherListProps, {weatherData: IWeatherData[]}> {
+
 
   constructor(props: IWeatherListProps) {
     super(props);
@@ -33,17 +53,23 @@ export class WeatherList extends React.Component<IWeatherListProps, {weatherData
   }
   private async getWeatherData(): Promise<IWeatherData[]> {
       // get real weather forecast from API (location set on Prague)
-      const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=50.0557718&longitude=14.4656125&daily=temperature_2m_mean`);
-      const data = await response.json();
+      const response: Response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=50.0557718&longitude=14.4656125&daily=temperature_2m_mean`);
+    
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const data: APIResponse = await response.json();
+      console.log(typeof data);
   
       const weatherData: IWeatherData[] = [];
   
       // API returns 7-day forecast, but we need only 5
       for (let i = 0; i < 5; i++) {
         // get date, temperature and weather type
-        const date = new Date(data.daily.time[i]);
-        const temp = data.daily.temperature_2m_mean[i];
-        const type = this.getWeatherType(temp);
+        const date:Date = new Date(data.daily.time[i]);
+        const temp:number = data.daily.temperature_2m_mean[i];
+        const type:WeatherType = this.getWeatherType(temp);
         
         // add daily weather data to array
         weatherData.push({
@@ -56,29 +82,28 @@ export class WeatherList extends React.Component<IWeatherListProps, {weatherData
       return weatherData;
   }
 
-  public async componentDidMount(): Promise<void> {
+  public componentDidMount() : void {
     // fetch the data when component is ready
-    const weatherData = await this.getWeatherData();
-    this.setState({ weatherData });
+    this.getWeatherData().then((weatherData) => {this.setState({ weatherData }); return;}).catch((err) => {console.error(err)});
   }
 
 
 
   public render(): React.ReactNode {
     return (
-      <div>
-        <Label>5-day Weather Forecast</Label>
+      <FluentProvider theme={webLightTheme}>
+        <Title3 as='h1' align='center'>{this.props.title}</Title3>
         <div className='weather-list'>
           {this.state.weatherData.map((weather, index) => (
             <WeatherBox
               key={index}
               temperature={weather.temperature}
               weatherType={weather.weatherType}
-              date={weather.date.toLocaleDateString('en-US')}
+              date={weather.date}
             />
           ))}
         </div>
-      </div>
+      </FluentProvider>
     );
   }
 }

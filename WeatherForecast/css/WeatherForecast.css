@@ -3,6 +3,7 @@
     flex-direction: row;
     gap: 1rem;
     justify-content: center;
+    text-align: center;
     align-items: center ;
 }
 
@@ -19,6 +20,5 @@
 }
 
 h1 {
-    font-size: 2em;
-    margin-bottom: 1rem;
+    margin: 0 auto;
 }

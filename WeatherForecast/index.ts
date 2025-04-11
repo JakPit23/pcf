@@ -1,5 +1,6 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WeatherList, IWeatherListProps } from "./WeatherList";
+import { FluentProvider } from "@fluentui/react-components";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -26,6 +27,7 @@ export class WeatherForecast implements ComponentFramework.ReactControl<IInputs,
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+    
     }
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -34,7 +36,7 @@ export class WeatherForecast implements ComponentFramework.ReactControl<IInputs,
      */
     public updateView(context: ComponentFramework.Context<IInputs>):React.ReactElement {
 
-        return React.createElement(WeatherList);
+        return (React.createElement(WeatherList, {title: "5-day weather forecast"}));
     }
 
     /**

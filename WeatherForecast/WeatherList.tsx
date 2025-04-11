@@ -92,7 +92,7 @@ export class WeatherList extends React.Component<IWeatherListProps, {weatherData
   public render(): React.ReactNode {
     return (
       <FluentProvider theme={webLightTheme}>
-        <Title3 as='h1' align='center'>{this.props.title}</Title3>
+        <Title3 as='h1' style={{textAlign: 'center'}}>{this.props.title}</Title3>
         <div className='weather-list'>
           {this.state.weatherData.map((weather, index) => (
             <WeatherBox

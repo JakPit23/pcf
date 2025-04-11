@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { makeStyles, Label, Card, Title3, Title1 } from '@fluentui/react-components';
-import "@fluentui/react-components/styles.css";
 import {WeatherSunny48Regular, WeatherCloudy48Regular, WeatherPartlyCloudyDay48Regular, WeatherRainSnow48Regular, WeatherSnow48Regular, TextFontSize24Regular} from "@fluentui/react-icons";
 
 export interface IWeatherBoxProps {

@@ -1,6 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WeatherList, IWeatherListProps } from "./WeatherList";
-import { FluentProvider } from "@fluentui/react-components";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -27,6 +26,11 @@ export class WeatherForecast implements ComponentFramework.ReactControl<IInputs,
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = 'https://static2.sharepointonline.com/files/fabric/assets/fonts/segoe-ui/segoe-ui.css';
+        document.head.appendChild(fontLink);
+
     
     }
     /**
